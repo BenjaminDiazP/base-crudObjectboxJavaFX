@@ -1,4 +1,4 @@
-package mx.edu.utez.baseproyecto5b.controller;
+package mx.edu.utez.baseproyecto5b;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
