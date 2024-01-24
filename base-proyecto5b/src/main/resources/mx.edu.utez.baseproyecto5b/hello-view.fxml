@@ -1,13 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.edu.utez.baseproyecto5b.controller.HelloView">
+<Pane prefHeight="250.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.edu.utez.baseproyecto5b.controller.HelloView">
    <children>
-      <Button layoutX="260.0" layoutY="80.0" mnemonicParsing="false" onAction="#onAsignarButtonOnClick" text="Asignatura" />
-      <Button layoutX="265.0" layoutY="165.0" mnemonicParsing="false" onAction="#onAlumnosMenuButtonOnClick" text="Alumno" />
-      <Button layoutX="265.0" layoutY="241.0" mnemonicParsing="false" onAction="#onMateriaMenuButtonOnClick" text="Materia" />
-      <Button layoutX="275.0" layoutY="328.0" mnemonicParsing="false" onAction="#OnSalirButtonClick" text="Salir" />
+      <VBox alignment="CENTER" prefHeight="250.0" prefWidth="200.0" style="-fx-background-color: #F2F2F2;">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onAsignarButtonOnClick" style="-fx-background-color: #345177;" text="Asignatura" textFill="WHITE">
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onAlumnosMenuButtonOnClick" style="-fx-background-color: #345177;" text="Alumno" textFill="WHITE">
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onMateriaMenuButtonOnClick" style="-fx-background-color: #345177;" text="Materia" textFill="WHITE">
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#OnSalirButtonClick" style="-fx-background-color: #E74C3C;" text="Salir" textFill="WHITE">
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
    </children>
-</AnchorPane>
+</Pane>

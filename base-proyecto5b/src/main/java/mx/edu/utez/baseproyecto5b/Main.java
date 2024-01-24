@@ -14,7 +14,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(
                 Main.class.getResource(
                         "/mx.edu.utez.baseproyecto5b/hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 500, 700);
+        Scene scene = new Scene(fxmlLoader.load(), 200, 250);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
