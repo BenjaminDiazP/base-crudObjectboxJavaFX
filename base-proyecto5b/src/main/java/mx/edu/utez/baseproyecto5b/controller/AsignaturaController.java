@@ -3,6 +3,7 @@ package mx.edu.utez.baseproyecto5b.controller;
 import io.objectbox.Box;
 import io.objectbox.relation.ToMany;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -52,15 +53,23 @@ public class AsignaturaController implements Initializable {
     private TextField searchFieldMaterias;
     @FXML
     private TextField searchFieldAlumnos;
-    @FXML
-    private Button searchButtonAlumnos;
-    @FXML
-    private Button searchButtonMaterias;
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         OnAcctionGETAlumnos();
         OnAcctionGETMaterias();
+
+
+        // Agregar un listener al campo de búsqueda de alumnos
+        searchFieldAlumnos.textProperty().addListener((observable, oldValue, newValue) -> {
+            buscarAlumno();
+        });
+
+        // Agregar un listener al campo de búsqueda de materias
+        searchFieldMaterias.textProperty().addListener((observable, oldValue, newValue) -> {
+            buscarMateria();
+        });
     }
 
     private void OnAcctionGETAlumnos(){
@@ -83,6 +92,9 @@ public class AsignaturaController implements Initializable {
         List<Alumno> listaAlumnos = alumnoBox.getAll();
         // Agregar los alumnos a la tabla
         tableviewEstudiante.getItems().addAll(listaAlumnos);
+
+        // Inicializar alumnosList con los datos de la base de datos
+        alumnosList = FXCollections.observableArrayList(listaAlumnos);
     }
 
 
@@ -104,6 +116,8 @@ public class AsignaturaController implements Initializable {
 
         // Agregar los alumnos a la tabla
         tableviewMateria.getItems().addAll(listaMateria);
+
+        materiaList = FXCollections.observableArrayList(listaMateria);
     }
 
   @FXML
@@ -131,16 +145,6 @@ public class AsignaturaController implements Initializable {
 
 
 
-
-    @FXML
-    protected void handleSearchButtonActionAlumnos(){
-        buscarAlumno();
-    }
-
-    @FXML
-    protected void handleSearchButtonActionMaterias(){
-        buscarMateria();
-    }
 
 
 
