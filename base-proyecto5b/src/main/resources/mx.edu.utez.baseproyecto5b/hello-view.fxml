@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.edu.utez.baseproyecto5b.controller.HelloView">
+   <children>
+      <Button layoutX="260.0" layoutY="80.0" mnemonicParsing="false" onAction="#onAsignarButtonOnClick" text="Asignatura" />
+      <Button layoutX="265.0" layoutY="165.0" mnemonicParsing="false" onAction="#onAlumnosMenuButtonOnClick" text="Alumno" />
+      <Button layoutX="265.0" layoutY="241.0" mnemonicParsing="false" onAction="#onMateriaMenuButtonOnClick" text="Materia" />
+      <Button layoutX="275.0" layoutY="328.0" mnemonicParsing="false" onAction="#OnSalirButtonClick" text="Salir" />
+   </children>
+</AnchorPane>
