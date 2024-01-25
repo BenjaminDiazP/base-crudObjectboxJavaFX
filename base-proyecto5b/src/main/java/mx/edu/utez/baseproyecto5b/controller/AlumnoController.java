@@ -54,6 +54,7 @@ public class AlumnoController {
         Box<Alumno> alumnoBox = Database.get().boxFor(Alumno.class);
         Alumno alumnoo = new Alumno(txtNombreI.getText(), txtApellidosI.getText(), txtMatriculaI.getText());
 
+
         long id = alumnoBox.put(alumnoo);
 
         Alumno recuperado = alumnoBox.get(id);

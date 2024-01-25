@@ -12,10 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import mx.edu.utez.baseproyecto5b.model.*;
@@ -57,9 +54,12 @@ public class AsignaturaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Habilitar la selección múltiple en las tablas
+        tableviewEstudiante.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tableviewMateria.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         OnAcctionGETAlumnos();
         OnAcctionGETMaterias();
-
 
         // Agregar un listener al campo de búsqueda de alumnos
         searchFieldAlumnos.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -120,28 +120,35 @@ public class AsignaturaController implements Initializable {
         materiaList = FXCollections.observableArrayList(listaMateria);
     }
 
-  @FXML
-  protected void AlumnoAsignarMaterias() {
-      System.out.println("Entro al Alumno asignarle Materias");
-    Alumno selectedStudent = tableviewEstudiante.getSelectionModel().getSelectedItem();  // primer error estaba   
-    Materia selectedSubject = tableviewMateria.getSelectionModel().getSelectedItem();
+    @FXML
+    protected void AlumnoAsignarMaterias() {
+        List<Alumno> selectedStudents = tableviewEstudiante.getSelectionModel().getSelectedItems();
+        List<Materia> selectedSubjects = tableviewMateria.getSelectionModel().getSelectedItems();
 
-    if (selectedStudent != null && selectedSubject != null) {
-        selectedStudent.getMaterias().add(selectedSubject);
-        Database.get().boxFor(Alumno.class).put(selectedStudent);
+        if (selectedStudents != null && selectedSubjects != null) {
+            for (Alumno selectedStudent : selectedStudents) {
+                for (Materia selectedSubject : selectedSubjects) {
+                    selectedStudent.getMaterias().add(selectedSubject);
+                }
+                Database.get().boxFor(Alumno.class).put(selectedStudent);
+            }
+        }
     }
-}
 
     @FXML
     public void MateriasAsignarAlumno() {
-    Alumno selectedStudent = tableviewEstudiante.getSelectionModel().getSelectedItem();
-    Materia selectedSubject = tableviewMateria.getSelectionModel().getSelectedItem();
+        List<Alumno> selectedStudents = tableviewEstudiante.getSelectionModel().getSelectedItems();
+        List<Materia> selectedSubjects = tableviewMateria.getSelectionModel().getSelectedItems();
 
-    if (selectedStudent != null && selectedSubject != null) {
-        selectedSubject.getAlumnos().add(selectedStudent);
-        Database.get().boxFor(Materia.class).put(selectedSubject);
+        if (selectedStudents != null && selectedSubjects != null) {
+            for (Materia selectedSubject : selectedSubjects) {
+                for (Alumno selectedStudent : selectedStudents) {
+                    selectedSubject.getAlumnos().add(selectedStudent);
+                }
+                Database.get().boxFor(Materia.class).put(selectedSubject);
+            }
+        }
     }
-}
 
 
 
