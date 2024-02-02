@@ -22,6 +22,8 @@ import mx.edu.utez.baseproyecto5b.model.Materia;
 import java.io.IOException;
 import java.util.List;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class AlumnoController {
 
@@ -51,17 +53,35 @@ public class AlumnoController {
 
     @FXML
     protected void OnAccionAgregarAlumno() {
-        Box<Alumno> alumnoBox = Database.get().boxFor(Alumno.class);
-        Alumno alumnoo = new Alumno(txtNombreI.getText(), txtApellidosI.getText(), txtMatriculaI.getText());
+        if(txtNombreI.getText().isEmpty() || txtApellidosI.getText().isEmpty() || txtMatriculaI.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error al agregar alumno");
+            alert.setContentText("No se puede agregar un alumno con campos vacios");
+            alert.showAndWait();
+        }else{
+            Box<Alumno> alumnoBox = Database.get().boxFor(Alumno.class);
+            Alumno alumnoo = new Alumno(txtNombreI.getText(), txtApellidosI.getText(), txtMatriculaI.getText());
+            Alumno selectedAlumno = tableView.getSelectionModel().getSelectedItem();
 
 
-        long id = alumnoBox.put(alumnoo);
-
-        Alumno recuperado = alumnoBox.get(id);
-
-        System.out.println(recuperado.getName());
-        System.out.println(recuperado.getMaterias());
-
+            if (selectedAlumno != null) {
+                // Actualizar el alumno seleccionado
+                selectedAlumno.setName(txtNombreI.getText());
+                selectedAlumno.setApellidos(txtApellidosI.getText());
+                selectedAlumno.setMatricula(txtMatriculaI.getText());
+                alumnoBox.put(selectedAlumno);
+                OnAcctionGET();
+            } else {
+                // Agregar un nuevo alumno
+                Alumno alumnoo1 = new Alumno(txtNombreI.getText(), txtApellidosI.getText(), txtMatriculaI.getText());
+                long id = alumnoBox.put(alumnoo1);
+                Alumno recuperado = alumnoBox.get(id);
+                System.out.println(recuperado.getName());
+                System.out.println(recuperado.getMaterias());
+                OnAcctionGET();
+            }
+        }
     }
 
 
@@ -97,14 +117,17 @@ public class AlumnoController {
         // Obtener todos los alumnos de la base de datos
         List<Alumno> listaAlumnos = alumnoBox.getAll();
 
-        /*
-        System.out.println("Lista de alumnos:");
-        for (Alumno alumno : listaAlumnos) {
-            System.out.println(alumno.getMaterias());
+        // Si la lista de alumnos está vacía, mostrar una alerta
+        if (listaAlumnos.isEmpty()) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Información Importante");
+            alert.setHeaderText(null);
+            alert.setContentText("No hay alumnos para agregar. Por favor, agrega al menos un alumno.");
+            alert.showAndWait();
+        } else {
+            // Agregar los alumnos a la tabla
+            tableView.getItems().addAll(listaAlumnos);
         }
-         */
-        // Agregar los alumnos a la tabla
-        tableView.getItems().addAll(listaAlumnos);
     }
 
 
@@ -115,7 +138,17 @@ public class AlumnoController {
         if (selectedAlumnoo != null) {
             Database.get().boxFor(Alumno.class).remove(selectedAlumnoo);
             tableView.getItems().remove(selectedAlumnoo);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Exitoso");
+            alert.setHeaderText("Exito al eliminar");
+            alert.setContentText("");
+            alert.showAndWait();
         }else{
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error al eliminar alumno");
+            alert.setContentText("No se puede eliminar un alumno sin seleccionar");
+            alert.showAndWait();
 
         }
     }

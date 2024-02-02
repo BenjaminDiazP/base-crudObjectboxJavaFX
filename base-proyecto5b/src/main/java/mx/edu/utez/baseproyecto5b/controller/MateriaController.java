@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -41,21 +42,30 @@ public class MateriaController {
 
     @FXML
     protected void OnAccionPUT(){
+        String nuevoNombre = txtNombreI.getText();
+        String nuevoClave = txtClaveI.getText();
+
+        if(nuevoNombre.isEmpty() || nuevoClave.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Llena todos los campos");
+            alert.showAndWait();
+            return;
+        }
+
         Box<Materia> materiaBox = Database.get().boxFor(Materia.class);
         Materia  selectedMateria = tableView.getSelectionModel().getSelectedItem();
 
         if(selectedMateria != null) {
-            String nuevoNombre = txtNombreI.getText();
-            String nuevoClave = txtClaveI.getText();
-
             selectedMateria.setNombre(nuevoNombre);
             selectedMateria.setClave(nuevoClave);
-
             materiaBox.put(selectedMateria);
-        }else{
-            Materia newmateria = new Materia(txtNombreI.getText(),txtClaveI.getText());
-
+            OnAcctionGET();
+        } else {
+            Materia newmateria = new Materia(nuevoNombre, nuevoClave);
             Database.get().boxFor(Materia.class).put(newmateria);
+            OnAcctionGET();
         }
     }
 
@@ -68,16 +78,25 @@ public class MateriaController {
     }
 
     private void cargarDatos(){
-        // Obtener la instancia del Box de Alumno
+        // Obtener la instancia del Box de Materia
         Box<Materia> materiaBox = Database.get().boxFor(Materia.class);
 
         tableView.getItems().clear();
 
-        // Obtener todos los alumnos de la base de datos
+        // Obtener todas las materias de la base de datos
         List<Materia> listaMateria = materiaBox.getAll();
 
-        // Agregar los alumnos a la tabla
-        tableView.getItems().addAll(listaMateria);
+        // Si la lista de materias está vacía, mostrar una alerta
+        if (listaMateria.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Información Importante");
+            alert.setHeaderText(null);
+            alert.setContentText("No hay materias para mostrar. Por favor, agrega al menos una materia.");
+            alert.showAndWait();
+        } else {
+            // Agregar las materias a la tabla
+            tableView.getItems().addAll(listaMateria);
+        }
     }
 
 
@@ -88,7 +107,12 @@ public class MateriaController {
             Database.get().boxFor(Materia.class).remove(selectedMateriaa);
             tableView.getItems().remove(selectedMateriaa);
         }else{
-
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Selecciona una materia");
+            alert.showAndWait();
+            return;
         }
     }
 

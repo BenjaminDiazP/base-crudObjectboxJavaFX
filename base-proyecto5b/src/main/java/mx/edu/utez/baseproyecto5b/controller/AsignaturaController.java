@@ -22,6 +22,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
+
 public class AsignaturaController implements Initializable {
 
     private ObservableList<Alumno> alumnosList;
@@ -122,16 +126,31 @@ public class AsignaturaController implements Initializable {
 
     @FXML
     protected void AlumnoAsignarMaterias() {
+        System.out.println("AlumnoAsignarMaterias");
         List<Alumno> selectedStudents = tableviewEstudiante.getSelectionModel().getSelectedItems();
         List<Materia> selectedSubjects = tableviewMateria.getSelectionModel().getSelectedItems();
 
-        if (selectedStudents != null && selectedSubjects != null) {
+        if (selectedStudents.isEmpty() && selectedSubjects.isEmpty()) {
+            System.out.println("No hay nada seleccionado");
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Información Importante");
+            alert.setHeaderText(null);
+            alert.setContentText("Seleccione un alumno y una materia");
+            alert.showAndWait();
+        }else{
+            System.out.println("Algo seleccionado");
             for (Alumno selectedStudent : selectedStudents) {
                 for (Materia selectedSubject : selectedSubjects) {
                     selectedStudent.getMaterias().add(selectedSubject);
                 }
                 Database.get().boxFor(Alumno.class).put(selectedStudent);
+
             }
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Información Importante");
+            alert.setHeaderText(null);
+            alert.setContentText("Correcta asignacion");
+            alert.showAndWait();
         }
     }
 
@@ -140,13 +159,25 @@ public class AsignaturaController implements Initializable {
         List<Alumno> selectedStudents = tableviewEstudiante.getSelectionModel().getSelectedItems();
         List<Materia> selectedSubjects = tableviewMateria.getSelectionModel().getSelectedItems();
 
-        if (selectedStudents != null && selectedSubjects != null) {
+        if (selectedStudents.isEmpty() && selectedSubjects.isEmpty()) {
+            System.out.println("No hay nada seleccionado");
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Información Importante");
+            alert.setHeaderText(null);
+            alert.setContentText("Seleccione un alumno y una materia");
+            alert.showAndWait();
+        }else{
             for (Materia selectedSubject : selectedSubjects) {
                 for (Alumno selectedStudent : selectedStudents) {
                     selectedSubject.getAlumnos().add(selectedStudent);
                 }
                 Database.get().boxFor(Materia.class).put(selectedSubject);
             }
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Información Importante");
+            alert.setHeaderText(null);
+            alert.setContentText("Correcta asignacion");
+            alert.showAndWait();
         }
     }
 
